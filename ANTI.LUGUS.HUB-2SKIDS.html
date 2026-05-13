@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+</head>
+
+<title>ANTI LUGUS HUB</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#00ff00">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js");
+}
+</script>
+<body>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Gmail">
+<input id="password" type="password" placeholder="Contraseña">
+
+<button onclick="register()">Registrarse</button>
+<button onclick="login()">Login</button>
+
+<p id="status"></p>
+
+<script>
+const API_KEY = "patcf74csgEKQ0aDB.c45763bd8eff5958225410ffb4b46961493aab5d807d419025ceabf753f76064";
+const BASE_ID = "app3cu9uGGGeIfwxe";
+const TABLE = "Table 1";
+
+const URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE}`;
+
+function register() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch(URL, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fields: { email, password }
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById("status").innerText = "Te registraste con exito";
+  })
+  .catch(err => {
+    document.getElementById("status").innerText = "ERROR";
+  });
+}
+
+function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  fetch(URL, {
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+    const user = data.records.find(r =>
+      r.fields.email === email && r.fields.password === password
+    );
+
+    if (user) {
+      document.getElementById("status").innerText = "Login correcto";
+      window.location.href = "12314edfsnret4yuu2iwqkdiorkw.html";
+    } else {
+      document.getElementById("status").innerText = "Datos incorrectos";
+    }
+  });
+}
+</script>
+
+</body>
+</html>
